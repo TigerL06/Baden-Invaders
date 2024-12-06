@@ -7,7 +7,7 @@ type Bullet = { id: string; x: number; y: number };
 type Enemy = { id: string; x: number; y: number };
 
 const App = () => {
-  // State-Variablen
+  const [currentScreen, setCurrentScreen] = useState<'Game' | 'ResetOptions'>('Game'); // Bildschirmverwaltung
   const [playerPosition, setPlayerPosition] = useState<number>(0); // Spielerposition
   const [bullets, setBullets] = useState<Bullet[]>([]); // Schüsse
   const [enemies, setEnemies] = useState<Enemy[]>([]); // Gegner
@@ -20,6 +20,8 @@ const App = () => {
 
   // Gegner spawnen (weniger schnell und keine Bewegung)
   useEffect(() => {
+    if (currentScreen !== 'Game') return;
+
     const interval = setInterval(() => {
       const randomX = Math.random() * 300 - 150; // Zufällige Position im Bereich von -150 bis 150
       setEnemies((prev) => [
@@ -28,10 +30,12 @@ const App = () => {
       ]);
     }, 2000); // Verlangsamt das Erzeugen der Gegner
     return () => clearInterval(interval);
-  }, []);
+  }, [currentScreen]);
 
   // Kollisionsprüfung und Punkte-Update
   useEffect(() => {
+    if (currentScreen !== 'Game') return;
+
     const interval = setInterval(() => {
       setBullets((prev) =>
         prev
@@ -52,10 +56,12 @@ const App = () => {
     }, 50);
 
     return () => clearInterval(interval);
-  }, [bullets]);
+  }, [bullets, currentScreen]);
 
   // Schüsse erzeugen
   useEffect(() => {
+    if (currentScreen !== 'Game') return;
+
     const interval = setInterval(() => {
       setBullets((prev) => [
         ...prev,
@@ -63,7 +69,34 @@ const App = () => {
       ]);
     }, 300);
     return () => clearInterval(interval);
-  }, [playerPosition]);
+  }, [playerPosition, currentScreen]);
+
+  if (currentScreen === 'ResetOptions') {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Möchten Sie ein neues Spiel starten?</Text>
+        <Text style={styles.title2}>Aktueller Score: {score}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setScore(0);
+            setEnemies([]);
+            setBullets([]);
+            setPlayerPosition(0);
+            setCurrentScreen('Game');
+          }}
+        >
+          <Text style={styles.buttonText}>Neues Spiel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setCurrentScreen('Game')}
+        >
+          <Text style={styles.buttonText}>Weiterfahren</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -72,14 +105,14 @@ const App = () => {
         <View style={styles.gameArea}>
           {/* Spieler (Raumschiff unten positioniert) */}
           <Image
-            source={require('@/assets/images/player.jpg')}
-            style={[styles.player, { transform: [{ translateX: playerPosition }, { translateY: -160 }] }]} // Raumschiff unten
+            source={require('@/assets/images/player.png')}
+            style={[styles.player, { transform: [{ translateX: playerPosition }, { translateY: -120 }] }]} // Raumschiff unten
           />
-          {/* Gegner (Keine Bewegung) */}
+          {/* Gegner */}
           {enemies.map((enemy) => (
             <Image
               key={enemy.id}
-              source={require('@/assets/images/enemy.jpg')}
+              source={require('@/assets/images/enemy.png')}
               style={[styles.enemy, { transform: [{ translateX: enemy.x }, { translateY: enemy.y }] }]}
             />
           ))}
@@ -89,7 +122,7 @@ const App = () => {
               key={bullet.id}
               style={[
                 styles.bullet,
-                { transform: [{ translateX: bullet.x}, { translateY: bullet.y}] },
+                { transform: [{ translateX: bullet.x }, { translateY: bullet.y }] },
               ]}
             />
           ))}
@@ -104,6 +137,14 @@ const App = () => {
             <Text style={styles.buttonText}>➡️</Text>
           </TouchableOpacity>
         </View>
+
+        {/* Neue Buttons oben links */}
+        <TouchableOpacity
+          style={styles.topLeftButton}
+          onPress={() => setCurrentScreen('ResetOptions')}
+        >
+          <Text style={styles.buttonText}>Stop</Text>
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );

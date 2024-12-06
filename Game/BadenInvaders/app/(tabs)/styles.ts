@@ -26,7 +26,35 @@ const styles = StyleSheet.create({
     right: 20,
     fontSize: 24,
     color: 'white',
+    fontWeight: "bold",
     zIndex: 10,
+  },
+  title:{
+    position: 'absolute',
+    top: 160,
+    flex: 1,
+    justifyContent: 'center', // Vertikale Zentrierung
+    alignItems: 'center',    // Horizontale Zentrierung
+    fontSize: 24,
+    color: 'white',
+    fontWeight: "bold",
+    zIndex: 10,
+  },
+  title2:{
+    position: 'absolute',
+    top: 200,
+    flex: 1,
+    justifyContent: 'center', // Vertikale Zentrierung
+    alignItems: 'center',    // Horizontale Zentrierung
+    fontSize: 24,
+    color: 'white',
+    fontWeight: "bold",
+    zIndex: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
   },
   player: {
     width: 50,
@@ -35,8 +63,8 @@ const styles = StyleSheet.create({
     bottom: 30, // Verschiebt das Raumschiff nach unten
   },
   enemy: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     position: 'absolute',
   },
   bullet: {
@@ -60,10 +88,16 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     margin: 10,
   },
-  buttonText: {
-    fontSize: 24,
-    color: 'white',
+  topLeftButton: {
+    position: 'absolute',
+    top: 10, // Abstand vom oberen Rand
+    left: 10, // Abstand vom rechten Rand
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
   },
+  
 });
 
 export default styles;
