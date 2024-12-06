@@ -72,14 +72,14 @@ const App = () => {
         <View style={styles.gameArea}>
           {/* Spieler (Raumschiff unten positioniert) */}
           <Image
-            source={require('@/assets/images/player.png')}
+            source={require('@/assets/images/player.jpg')}
             style={[styles.player, { transform: [{ translateX: playerPosition }, { translateY: -160 }] }]} // Raumschiff unten
           />
           {/* Gegner (Keine Bewegung) */}
           {enemies.map((enemy) => (
             <Image
               key={enemy.id}
-              source={require('@/assets/images/enemy.png')}
+              source={require('@/assets/images/enemy.jpg')}
               style={[styles.enemy, { transform: [{ translateX: enemy.x }, { translateY: enemy.y }] }]}
             />
           ))}

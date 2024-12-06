@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     width: '100%',
+    height: "auto",
     justifyContent: 'center',
   },
   gameArea: {
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   },
   player: {
     width: 50,
-    height: 50,
+    height: 100,
     position: 'absolute', // Position des Raumschiffs festlegen
     bottom: 30, // Verschiebt das Raumschiff nach unten
   },
